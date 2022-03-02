@@ -9,14 +9,9 @@ form.addEventListener("submit", function (e) {
   e.preventDefault();
   let inputs = [...this.elements];
   let formData = {};
-  let isValid = true;
   inputs.forEach((input) => {
     if (input.type != "submit") {
-      if (input.value == "") {
-        alert("Please enter a value in the input");
-        isValid = false;
-        return;
-      }
+      formData[input.name] = input.value;
     }
   });
   formData.status = "incomplete";
