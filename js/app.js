@@ -1,32 +1,49 @@
-//selecting elements
-let form = document.getElementById("form");
-let tbody = document.getElementById("tbody");
-let date = document.getElementById("date");
-let today = new Date().toISOString().slice(0, 10);
+// //selecting elements
+function getId(id) {
+  return document.getElementById(id);
+}
+
+const form = getId("form");
+const date = getId("date");
+const tBody = getId("tbody");
+
+const today = new Date().toISOString().slice(0, 10);
 date.value = today;
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
   let inputs = [...this.elements];
   let formData = {};
+  let isValid = true;
   inputs.forEach((input) => {
     if (input.type != "submit") {
+      if (input.value == "") {
+        alert("Please enter a value in the input");
+        isValid = false;
+        return;
+      }
       formData[input.name] = input.value;
     }
   });
-  formData.status = "incomplete";
-  console.log(formData);
-  showData(formData);
+  if (isValid) {
+    formData.status = "incomplete";
+    formData.id = uuidv4();
+
+    const tasks = getDataLocalStorage();
+    showData(formData, tasks.length + 1);
+    tasks.push(formData);
+
+    setData(tasks);
+  }
   this.reset();
 });
 
 //show data in Ui
 
-function showData({ name, priority, status, date }) {
+function showData({ name, priority, status, date, id }, index) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
-    <tr>
-        <td>0</td>
+        <td>${index}</td>
         <td>${name}</td>
         <td>${priority}</td>
         <td>${status}</td>
@@ -40,7 +57,31 @@ function showData({ name, priority, status, date }) {
             </button>
             <button id="delete"><i class="fa-solid fa-trash"></i></button>
         </td>
-    </tr>
     `;
-  tbody.appendChild(tr);
+  tr.dataset.id = id;
+  tBody.appendChild(tr);
+}
+
+//local storage
+window.onload = function () {
+  const tasks = getDataLocalStorage();
+  tasks.forEach((task, index) => {
+    showData(task, index + 1);
+  });
+};
+
+//get data
+function getDataLocalStorage() {
+  let tasks = [];
+  const data = localStorage.getItem("tasks");
+
+  if (data) {
+    tasks = JSON.parse(data);
+  }
+  return tasks;
+}
+
+//set data
+function setData(task) {
+  localStorage.setItem("tasks", JSON.stringify(task));
 }
