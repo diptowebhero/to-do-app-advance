@@ -38,6 +38,20 @@ form.addEventListener("submit", function (e) {
   this.reset();
 });
 
+//update,delete,confirm method
+tBody.addEventListener("click", (e) => {
+  const tr = e.target.parentElement.parentElement;
+  const id = tr.dataset.id;
+  tr.remove();
+  let tasks = getDataLocalStorage();
+  tasks = tasks.filter((task) => {
+    if (task.id !== id) {
+      return task;
+    }
+  });
+  setData(tasks);
+});
+
 //show data in Ui
 
 function showData({ name, priority, status, date, id }, index) {
