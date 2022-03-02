@@ -1,0 +1,156 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #e5e5e5;
+  font-family: "Roboto", sans-serif;
+}
+main {
+  max-width: 900px;
+  margin: 30px auto;
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+}
+.main_title {
+  text-align: center;
+  position: relative;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 28px;
+}
+.main_title::after {
+  content: "";
+  width: 200px;
+  height: 2px;
+  background-color: #020202;
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.sub_title {
+  margin-bottom: 5px;
+  font-size: 22px;
+  font-weight: 500;
+}
+.underline {
+  width: 100%;
+  background: #2b2b2b;
+  height: 1px;
+  margin: 9px 0px 17px;
+}
+#form {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+#form label {
+  font-weight: 600;
+  color: #2b2b2b;
+}
+
+.task_name {
+  flex: 1;
+}
+.task_name input {
+  width: 80%;
+  border: none;
+  outline: none;
+  background-color: #f0f2f5;
+  height: 30px;
+  padding: 10px;
+  border-radius: 7px;
+}
+#form input,
+select {
+  outline: none;
+  background-color: #f0f2f5;
+  height: 40px;
+  border: none;
+  padding: 0px 8px;
+  margin: 0 5px;
+  border-radius: 8px;
+}
+#form .add_new_task input {
+  background-color: #0f92f3;
+  padding: 5px 10px;
+  border: none;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tools input {
+  outline: none;
+  background-color: #f0f2f5;
+  height: 40px;
+  border: none;
+  padding: 0px 8px;
+  margin: 0 5px;
+  border-radius: 8px;
+}
+
+table,
+thead,
+tbody,
+tr {
+  display: block;
+  width: 100%;
+}
+tr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+thead {
+  padding: 10px 8px;
+  margin: 25px 0 13px;
+  background: #f0f2f5;
+  border-radius: 5px;
+}
+#tbody tr{
+  padding: 5px 5px;
+  border-radius: 5px;
+  margin: 10px 0px;
+}
+#tbody > tr:hover{
+  background-color: #f0f2f5;
+}
+td button{
+  background:unset;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+td button i{
+  pointer-events: none;
+  font-size: 24px;
+  margin: 0 5px;
+}
+#delete i{
+  color: crimson;
+}
+#check i{
+  color: #1ecd97 ;
+}
+#edit i{
+  color: #4caf50 ;
+}
+td,th{
+  flex: 1;
+  text-align: center;
+}

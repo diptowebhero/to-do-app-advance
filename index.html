@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do-App</title>
+    <!-- Font awesome link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Main css -->
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <main>
+      <!-- new task creation area -->
+      <h1 class="main_title">My To Do App</h1>
+      <h2 class="sub_title">Create New Task</h2>
+      <div class="underline"></div>
+      <form id="form">
+        <div class="task_name">
+          <label for="name">Name :</label>
+          <input
+            name="name"
+            id="name"
+            type="text"
+            placeholder="Add a new task"
+          />
+        </div>
+        <div class="task_priority">
+          <label for="priority">Priority :</label>
+          <select name="priority" id="priority">
+            <option disabled>Select One</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <div class="task_date">
+          <label for="date">Date :</label>
+          <input name="date" id="date" type="date" />
+        </div>
+        <div class="add_new_task">
+          <input type="submit" value="Add Task" />
+        </div>
+      </form>
+      <!-- task management area -->
+      <h2 class="sub_title">Task Management</h2>
+      <div class="underline"></div>
+      <div class="tools">
+        <div class="search">
+          <label for="search_name">Search :</label>
+          <input id="search_name" placeholder="Search by name" type="text" />
+        </div>
+        <div class="filter">
+          <label for="filter">Filter :</label>
+          <select name="filter" id="filter">
+            <option value="all">All</option>
+            <option value="complete">Complete</option>
+            <option value="incomplete">Incomplete</option>
+            <option value="today">Today</option>
+            <option value="high">High Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="low">Low Priority</option>
+          </select>
+        </div>
+        <div class="sort">
+          <label for="sort">Sort</label>
+          <select name="sort" id="sort">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+        </div>
+        <div class="by_date">
+          <label for="by_date">By Date :</label>
+          <input type="date" name="by_date" id="by_date" />
+        </div>
+      </div>
+      <!-- table area -->
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Task Name</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr>
+            <td>0</td>
+            <td>Dip</td>
+            <td>high</td>
+            <td>Incomplete</td>
+            <td>2022-03-02</td>
+            <td>
+              <button id="edit">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button id="check">
+                <i class="fa-solid fa-square-check"></i>
+              </button>
+              <button id="delete"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
+    <script src="./js/app.js"></script>
+  </body>
+</html>
