@@ -38,30 +38,15 @@ form.addEventListener("submit", function (e) {
   this.reset();
 });
 
-//update,delete,confirm method
-tBody.addEventListener("click", (e) => {
-  const tr = e.target.parentElement.parentElement;
-  const id = tr.dataset.id;
-  tr.remove();
-  let tasks = getDataLocalStorage();
-  tasks = tasks.filter((task) => {
-    if (task.id !== id) {
-      return task;
-    }
-  });
-  setData(tasks);
-});
-
 //show data in Ui
-
 function showData({ name, priority, status, date, id }, index) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
-        <td>${index}</td>
-        <td>${name}</td>
-        <td>${priority}</td>
-        <td>${status}</td>
-        <td>${date}</td>
+        <td id="no">${index}</td>
+        <td id="name">${name}</td>
+        <td id="priority">${priority}</td>
+        <td id="status">${status}</td>
+        <td id="date">${date}</td>
         <td>
             <button id="edit">
                 <i class="fa-solid fa-pen-to-square"></i>
@@ -76,6 +61,48 @@ function showData({ name, priority, status, date, id }, index) {
   tBody.appendChild(tr);
 }
 
+//================================================================
+//update,delete,confirm method
+tBody.addEventListener("click", (e) => {
+  if (e.target.id == "delete") {
+    const tr = e.target.parentElement.parentElement;
+    const id = tr.dataset.id;
+    tr.remove();
+    let tasks = getDataLocalStorage();
+    tasks = tasks.filter((task) => {
+      if (task.id !== id) {
+        return task;
+      }
+    });
+    setData(tasks);
+  } else if (e.target.id === "check") {
+    const tr = e.target.parentElement.parentElement;
+    const id = tr.dataset.id;
+    const tds = tr.children;
+    [...tds].forEach((td) => {
+      if (td.id == "status") {
+        let tasks = getDataLocalStorage();
+        tasks = tasks.filter((task) => {
+          if (task.id === id) {
+            if (task.status === "incomplete") {
+              task.status = "complete";
+              td.innerText = "complete";
+            } else {
+              task.status = "incomplete";
+              td.innerText = "incomplete";
+            }
+            return task;
+          } else {
+            return task;
+          }
+        });
+        setData(tasks);
+      }
+    });
+  }
+});
+
+//================================================
 //local storage
 window.onload = function () {
   const tasks = getDataLocalStorage();
