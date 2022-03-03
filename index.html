@@ -1,3 +1,9 @@
+<!--
+  Partner: Eduardo Programador
+  Website: www.eduardoprogramador.com
+
+-->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,9 +48,17 @@
           <label for="date">Date :</label>
           <input name="date" id="date" type="date" />
         </div>
+        <div class="task_level">
+          <label for="level">Level :</label>
+          <select name="level" id="level">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
         <div class="add_new_task">
           <input type="submit" value="Add Task" />
-        </div>
+        </div>        
       </form>
       <!-- task management area -->
       <h2 class="sub_title">Task Management</h2>
@@ -64,6 +78,9 @@
             <option value="high">High Priority</option>
             <option value="medium">Medium Priority</option>
             <option value="low">Low Priority</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
           </select>
         </div>
         <div class="sort">
@@ -87,6 +104,7 @@
             <th>Priority</th>
             <th>Status</th>
             <th>Date</th>
+            <th>Level</th>
             <th>Action</th>
           </tr>
         </thead>
