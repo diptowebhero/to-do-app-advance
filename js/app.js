@@ -54,7 +54,7 @@ tBody.addEventListener("click", (e) => {
 
 //show data in Ui
 
-function showData({ name, priority, status, date, id }, index) {
+function showData({ name, priority, status, date, id, level}, index) {
   const tr = document.createElement("tr");
   tr.innerHTML = `
         <td>${index}</td>
@@ -62,6 +62,7 @@ function showData({ name, priority, status, date, id }, index) {
         <td>${priority}</td>
         <td>${status}</td>
         <td>${date}</td>
+        <td>${level}</td>
         <td>
             <button id="edit">
                 <i class="fa-solid fa-pen-to-square"></i>

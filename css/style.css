@@ -154,3 +154,8 @@ td,th{
   flex: 1;
   text-align: center;
 }
+
+.add_new_task:hover {
+  background-color: skyblue;
+  border-radius: 10%;
+}
