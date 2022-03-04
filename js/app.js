@@ -47,7 +47,7 @@ function showData({ name, priority, status, date, id }, index) {
         <td id="priority">${priority}</td>
         <td id="status">${status}</td>
         <td id="date">${date}</td>
-        <td>
+        <td id="action">
             <button id="edit">
                 <i class="fa-solid fa-pen-to-square"></i>
             </button>
@@ -61,7 +61,7 @@ function showData({ name, priority, status, date, id }, index) {
   tBody.appendChild(tr);
 }
 
-//================================================================
+//============================Action====================================
 //update,delete,confirm method
 tBody.addEventListener("click", (e) => {
   if (e.target.id == "delete") {
@@ -97,6 +97,101 @@ tBody.addEventListener("click", (e) => {
           }
         });
         setData(tasks);
+      }
+    });
+  } else if (e.target.id === "edit") {
+    const tr = e.target.parentElement.parentElement;
+    const id = tr.dataset.id;
+    const tds = tr.children;
+
+    //name
+    let nameTd;
+    let nameInput;
+
+    //priority
+    let priorityTd;
+    let priorityInput;
+
+    //date
+    let dateId;
+    let dateInput;
+
+    //actions
+    let actionsTd;
+    let previousAction;
+
+    [...tds].forEach((td) => {
+      if (td.id === "name") {
+        nameTd = td;
+        let previousName = td.textContent;
+        td.innerHTML = "";
+        nameInput = document.createElement("input");
+        nameInput.type = "text";
+        nameInput.value = previousName;
+        td.appendChild(nameInput);
+      } else if (td.id === "priority") {
+        priorityTd = td;
+        const previousPriority = td.textContent;
+        td.innerHTML = "";
+        priorityInput = document.createElement("select");
+        priorityInput.innerHTML = `<option disabled>Select One</option>
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="Low">Low</option>`;
+
+        if (previousPriority === "high") {
+          priorityInput.selectedIndex = 1;
+        } else if (previousPriority === "medium") {
+          priorityInput.selectedIndex = 2;
+        } else if (previousPriority === "Low") {
+          priorityInput.selectedIndex = 3;
+        }
+        td.appendChild(priorityInput);
+      } else if (td.id === "date") {
+        dateId = td;
+        const previousDate = td.textContent;
+        td.innerHTML = "";
+        dateInput = document.createElement("input");
+        dateInput.type = "date";
+        dateInput.value = previousDate;
+        td.appendChild(dateInput);
+      } else if (td.id === "action") {
+        actionsTd = td;
+        previousAction = td.innerHTML;
+        td.innerHTML = "";
+        const saveBtn = document.createElement("button");
+        saveBtn.innerText = "Save";
+        saveBtn.addEventListener("click", function () {
+          //name
+          const newInputName = nameInput.value;
+          nameTd.innerHTML = newInputName;
+
+          //priority
+          const newPriority = priorityInput.value;
+          priorityTd.innerHTML = newPriority;
+
+          //date
+          const newDate = dateInput.value;
+          dateId.innerHTML = newDate;
+
+          //action
+          actionsTd.innerHTML = previousAction;
+
+          let tasks = getDataLocalStorage();
+          tasks.filter((task) => {
+            if (task.id === id) {
+              task.name = newInputName;
+              task.priority = newPriority;
+              task.date = newDate;
+              return task;
+            } else {
+              return task;
+            }
+          });
+          console.log(tasks);
+          setData(tasks)
+        });
+        td.appendChild(saveBtn);
       }
     });
   }

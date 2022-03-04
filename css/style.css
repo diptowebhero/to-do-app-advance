@@ -22,6 +22,7 @@ main {
   font-weight: 600;
   text-transform: uppercase;
   margin-top: 28px;
+  margin-bottom: 24px;
 }
 .main_title::after {
   content: "";
