@@ -15,6 +15,8 @@ date.value = today;
 //search functionality
 searchName.addEventListener("input", function () {
   tBody.innerHTML = "";
+  filter.selectedIndex = 0;
+  sort.selectedIndex = 0;
   const searchTerm = this.value;
   let no = 0;
   let tasks = getDataLocalStorage();
@@ -25,11 +27,11 @@ searchName.addEventListener("input", function () {
   });
 });
 
-
-
 //filter functionality
 filter.addEventListener("change", function () {
   tBody.innerHTML = "";
+  searchName.value = "";
+  sort.selectedIndex = 0;
   const filterTerm = this.value;
   const tasks = getDataLocalStorage();
   switch (filterTerm) {
@@ -95,37 +97,34 @@ filter.addEventListener("change", function () {
 //sort functionality
 sort.addEventListener("change", function () {
   tBody.innerHTML = "";
+  searchName.value = "";
+  filter.selectedIndex = 0;
   const sortTerm = this.value;
   const tasks = getDataLocalStorage();
-  if(sortTerm === "newest"){
+  if (sortTerm === "newest") {
     tasks.sort((a, b) => {
-      if(new Date(a.date) > new Date(b.date)){
-        return -1
-      }
-      else if(new Date(a.date) < new Date(b.date)){
-        return 1
-      }
-      else{
+      if (new Date(a.date) > new Date(b.date)) {
+        return -1;
+      } else if (new Date(a.date) < new Date(b.date)) {
+        return 1;
+      } else {
         return 0;
       }
-    })
-  }
-  else{
+    });
+  } else {
     tasks.sort((a, b) => {
-      if(new Date(a.date) > new Date(b.date)){
-        return 1
-      }
-      else if(new Date(a.date) < new Date(b.date)){
-        return -1
-      }
-      else{
+      if (new Date(a.date) > new Date(b.date)) {
+        return 1;
+      } else if (new Date(a.date) < new Date(b.date)) {
+        return -1;
+      } else {
         return 0;
       }
-    })
+    });
   }
-  tasks.forEach((task,index)=>{
-    showData(task,index + 1)
-  })
+  tasks.forEach((task, index) => {
+    showData(task, index + 1);
+  });
 });
 
 form.addEventListener("submit", function (e) {
