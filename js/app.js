@@ -8,6 +8,7 @@ const date = getId("date");
 const searchName = getId("search_name");
 const filter = getId("filter");
 const sort = getId("sort");
+const byDate = getId("by_date");
 const tBody = getId("tbody");
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
@@ -17,6 +18,7 @@ searchName.addEventListener("input", function () {
   tBody.innerHTML = "";
   filter.selectedIndex = 0;
   sort.selectedIndex = 0;
+  byDate.value = "";
   const searchTerm = this.value;
   let no = 0;
   let tasks = getDataLocalStorage();
@@ -31,6 +33,7 @@ searchName.addEventListener("input", function () {
 filter.addEventListener("change", function () {
   tBody.innerHTML = "";
   searchName.value = "";
+  byDate.value = "";
   sort.selectedIndex = 0;
   const filterTerm = this.value;
   const tasks = getDataLocalStorage();
@@ -98,6 +101,7 @@ filter.addEventListener("change", function () {
 sort.addEventListener("change", function () {
   tBody.innerHTML = "";
   searchName.value = "";
+  byDate.value = "";
   filter.selectedIndex = 0;
   const sortTerm = this.value;
   const tasks = getDataLocalStorage();
@@ -126,6 +130,21 @@ sort.addEventListener("change", function () {
     showData(task, index + 1);
   });
 });
+
+//date functionality
+byDate.addEventListener('change', function(){
+  tBody.innerHTML = "";
+  searchName.value = "";
+  filter.selectedIndex = 0;
+  const selectedValue = this.value;
+  const tasks = getDataLocalStorage();
+  tasks.filter((task) => {
+    let count = 0;
+    if(task.date === selectedValue){
+      showData(task,++count)
+    }
+  })
+})
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
