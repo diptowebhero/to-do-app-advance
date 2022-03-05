@@ -5,24 +5,90 @@ function getId(id) {
 
 const form = getId("form");
 const date = getId("date");
-const searchName = getId("search_name")
+const searchName = getId("search_name");
+const filter = getId("filter");
 const tBody = getId("tbody");
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
 
 //search functionality
-searchName.addEventListener("input", function(e){
+searchName.addEventListener("input", function () {
   tBody.innerHTML = "";
   const searchTerm = this.value;
   let no = 0;
-  const tasks = getDataLocalStorage();
-  tasks.forEach(task => {
-    if(task.name.toLowerCase().includes(searchTerm.toLowerCase())){
-      showData(task,++no)
+  let tasks = getDataLocalStorage();
+  tasks.forEach((task) => {
+    if (task.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+      showData(task, ++no);
     }
-  })
-})
+  });
+});
 
+//filter functionality
+filter.addEventListener("change", function () {
+  tBody.innerHTML = "";
+  const filterTerm = this.value;
+  const tasks = getDataLocalStorage();
+  switch (filterTerm) {
+    case "all":
+      tasks.forEach((task, index) => {
+        showData(task, index + 1);
+      });
+      break;
+    case "complete":
+      let index1 = 0;
+      tasks.forEach((task) => {
+        if (task.status === "complete") {
+          let index1 = 0;
+          showData(task, ++index1);
+        }
+      });
+      break;
+    case "incomplete":
+      let index2 = 0;
+      tasks.forEach((task) => {
+        if (task.status === "incomplete") {
+          showData(task, ++index2);
+        }
+      });
+      break;
+    case "today":
+      let index3 = 0;
+      tasks.forEach((task) => {
+        if (task.date === today) {
+          showData(task, ++index3);
+        }
+      });
+      break;
+    case "high":
+      let index4 = 0;
+      tasks.forEach((task) => {
+        if (task.priority === "high") {
+          showData(task, ++index4);
+        }
+      });
+      break;
+    case "medium":
+      let index5 = 0;
+      tasks.forEach((task) => {
+        if (task.priority === "medium") {
+          showData(task, ++index5);
+        }
+      });
+      break;
+    case "low":
+      
+      let index6 = 0;
+      tasks.forEach((task) => {
+        console.log(task);
+        if (task.priority === "Low") {
+          console.log("low");
+          showData(task, ++index6);
+        }
+      });
+      break;
+  }
+});
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -140,7 +206,7 @@ tBody.addEventListener("click", (e) => {
         let previousName = td.textContent;
         td.innerHTML = "";
         nameInput = document.createElement("input");
-        nameInput.className = "nameInput"
+        nameInput.className = "nameInput";
         nameInput.type = "text";
         nameInput.value = previousName;
         td.appendChild(nameInput);
@@ -149,7 +215,7 @@ tBody.addEventListener("click", (e) => {
         const previousPriority = td.textContent;
         td.innerHTML = "";
         priorityInput = document.createElement("select");
-        priorityInput.className = "selectInput"
+        priorityInput.className = "selectInput";
         priorityInput.innerHTML = `<option disabled>Select One</option>
         <option value="high">High</option>
         <option value="medium">Medium</option>
@@ -168,7 +234,7 @@ tBody.addEventListener("click", (e) => {
         const previousDate = td.textContent;
         td.innerHTML = "";
         dateInput = document.createElement("input");
-        dateInput.className ="dateInput"
+        dateInput.className = "dateInput";
         dateInput.type = "date";
         dateInput.value = previousDate;
         td.appendChild(dateInput);
@@ -177,7 +243,7 @@ tBody.addEventListener("click", (e) => {
         previousAction = td.innerHTML;
         td.innerHTML = "";
         const saveBtn = document.createElement("button");
-        saveBtn.className = "saveBtn"
+        saveBtn.className = "saveBtn";
         saveBtn.innerText = "Save";
         saveBtn.addEventListener("click", function () {
           //name
@@ -206,8 +272,8 @@ tBody.addEventListener("click", (e) => {
               return task;
             }
           });
-          
-          setData(tasks)
+
+          setData(tasks);
         });
         td.appendChild(saveBtn);
       }
