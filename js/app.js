@@ -126,6 +126,7 @@ tBody.addEventListener("click", (e) => {
         let previousName = td.textContent;
         td.innerHTML = "";
         nameInput = document.createElement("input");
+        nameInput.className = "nameInput"
         nameInput.type = "text";
         nameInput.value = previousName;
         td.appendChild(nameInput);
@@ -134,6 +135,7 @@ tBody.addEventListener("click", (e) => {
         const previousPriority = td.textContent;
         td.innerHTML = "";
         priorityInput = document.createElement("select");
+        priorityInput.className = "selectInput"
         priorityInput.innerHTML = `<option disabled>Select One</option>
         <option value="high">High</option>
         <option value="medium">Medium</option>
@@ -152,6 +154,7 @@ tBody.addEventListener("click", (e) => {
         const previousDate = td.textContent;
         td.innerHTML = "";
         dateInput = document.createElement("input");
+        dateInput.className ="dateInput"
         dateInput.type = "date";
         dateInput.value = previousDate;
         td.appendChild(dateInput);
@@ -160,6 +163,7 @@ tBody.addEventListener("click", (e) => {
         previousAction = td.innerHTML;
         td.innerHTML = "";
         const saveBtn = document.createElement("button");
+        saveBtn.className = "saveBtn"
         saveBtn.innerText = "Save";
         saveBtn.addEventListener("click", function () {
           //name
@@ -188,7 +192,7 @@ tBody.addEventListener("click", (e) => {
               return task;
             }
           });
-          console.log(tasks);
+          
           setData(tasks)
         });
         td.appendChild(saveBtn);
