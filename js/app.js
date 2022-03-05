@@ -7,6 +7,7 @@ const form = getId("form");
 const date = getId("date");
 const searchName = getId("search_name");
 const filter = getId("filter");
+const sort = getId("sort");
 const tBody = getId("tbody");
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
@@ -23,6 +24,8 @@ searchName.addEventListener("input", function () {
     }
   });
 });
+
+
 
 //filter functionality
 filter.addEventListener("change", function () {
@@ -77,7 +80,6 @@ filter.addEventListener("change", function () {
       });
       break;
     case "low":
-      
       let index6 = 0;
       tasks.forEach((task) => {
         console.log(task);
@@ -88,6 +90,42 @@ filter.addEventListener("change", function () {
       });
       break;
   }
+});
+
+//sort functionality
+sort.addEventListener("change", function () {
+  tBody.innerHTML = "";
+  const sortTerm = this.value;
+  const tasks = getDataLocalStorage();
+  if(sortTerm === "newest"){
+    tasks.sort((a, b) => {
+      if(new Date(a.date) > new Date(b.date)){
+        return -1
+      }
+      else if(new Date(a.date) < new Date(b.date)){
+        return 1
+      }
+      else{
+        return 0;
+      }
+    })
+  }
+  else{
+    tasks.sort((a, b) => {
+      if(new Date(a.date) > new Date(b.date)){
+        return 1
+      }
+      else if(new Date(a.date) < new Date(b.date)){
+        return -1
+      }
+      else{
+        return 0;
+      }
+    })
+  }
+  tasks.forEach((task,index)=>{
+    showData(task,index + 1)
+  })
 });
 
 form.addEventListener("submit", function (e) {
