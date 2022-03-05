@@ -5,10 +5,24 @@ function getId(id) {
 
 const form = getId("form");
 const date = getId("date");
+const searchName = getId("search_name")
 const tBody = getId("tbody");
-
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
+
+//search functionality
+searchName.addEventListener("input", function(e){
+  tBody.innerHTML = "";
+  const searchTerm = this.value;
+  let no = 0;
+  const tasks = getDataLocalStorage();
+  tasks.forEach(task => {
+    if(task.name.toLowerCase().includes(searchTerm.toLowerCase())){
+      showData(task,++no)
+    }
+  })
+})
+
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
