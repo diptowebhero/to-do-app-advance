@@ -10,6 +10,8 @@ const filter = getId("filter");
 const sort = getId("sort");
 const byDate = getId("by_date");
 const tBody = getId("tbody");
+const all_select = getId("all_select");
+const bulk_action = getId("bulk_action");
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
 
@@ -100,27 +102,26 @@ filter.addEventListener("change", function () {
 //sort functionality
 sort.addEventListener("change", function () {
   tBody.innerHTML = "";
-  searchName.value = "";
-  byDate.value = "";
   filter.selectedIndex = 0;
+  searchName.value = "";
   const sortTerm = this.value;
   const tasks = getDataLocalStorage();
   if (sortTerm === "newest") {
     tasks.sort((a, b) => {
-      if (new Date(a.date) > new Date(b.date)) {
-        return -1;
-      } else if (new Date(a.date) < new Date(b.date)) {
+      if (new Date(a.date) < new Date(b.date)) {
         return 1;
+      } else if (new Date(a.date) < new Date(b.date)) {
+        return -1;
       } else {
         return 0;
       }
     });
   } else {
     tasks.sort((a, b) => {
-      if (new Date(a.date) > new Date(b.date)) {
-        return 1;
-      } else if (new Date(a.date) < new Date(b.date)) {
+      if (new Date(a.date) < new Date(b.date)) {
         return -1;
+      } else if (new Date(a.date) < new Date(b.date)) {
+        return 1;
       } else {
         return 0;
       }
@@ -132,19 +133,20 @@ sort.addEventListener("change", function () {
 });
 
 //date functionality
-byDate.addEventListener('change', function(){
+byDate.addEventListener("change", function () {
   tBody.innerHTML = "";
-  searchName.value = "";
   filter.selectedIndex = 0;
-  const selectedValue = this.value;
+  sort.selectedIndex = 0;
+  searchName.value = "";
+  const selectedDate = this.value;
   const tasks = getDataLocalStorage();
   tasks.filter((task) => {
     let count = 0;
-    if(task.date === selectedValue){
-      showData(task,++count)
+    if (task.date === selectedDate) {
+      showData(task, ++count);
     }
-  })
-})
+  });
+});
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -174,10 +176,56 @@ form.addEventListener("submit", function (e) {
   this.reset();
 });
 
+let checked = [];
+function selectFunction(e) {
+  const tr = e.target.parentElement.parentElement;
+  const id = tr.dataset.id;
+  if (e.target.checked) {
+    checked.push(tr);
+    bulkActionHandler();
+  } else {
+    const index = checked.findIndex((tr) => tr.dataset.id === id);
+    checked.splice(index, 1);
+    bulkActionHandler();
+  }
+}
+
+function bulkActionHandler() {
+  if (checked.length) {
+    bulk_action.style.display = "flex";
+  } else {
+    bulk_action.style.display = "none";
+  }
+}
+
+all_select.addEventListener("click", (e) => {
+  const checkBoxes = document.getElementsByClassName("checkbox");
+  if (e.target.checked) {
+    checked = [];
+    for (let box of checkBoxes) {
+      box.checked = true;
+      checked.push(box.parentElement.parentElement);
+    }
+    bulkActionHandler();
+  } else {
+    for (let box of checkBoxes) {
+      box.checked = false;
+      checked = [];
+    }
+    bulkActionHandler();
+  }
+});
 //show data in Ui
 function showData({ name, priority, status, date, id }, index) {
   const tr = document.createElement("tr");
+  const check = document.createElement("input");
+  check.type = "checkbox";
+  check.className = "checkbox";
+
+  check.addEventListener("change", selectFunction);
+
   tr.innerHTML = `
+  <td id="check_box"></td>
         <td id="no">${index}</td>
         <td id="name">${name}</td>
         <td id="priority">${priority}</td>
@@ -193,6 +241,7 @@ function showData({ name, priority, status, date, id }, index) {
             <button id="delete"><i class="fa-solid fa-trash"></i></button>
         </td>
     `;
+  tr.firstElementChild.appendChild(check);
   tr.dataset.id = id;
   tBody.appendChild(tr);
 }

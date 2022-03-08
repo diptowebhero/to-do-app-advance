@@ -7,6 +7,10 @@
     <title>To-Do-App</title>
     <!-- Font awesome link -->
     <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
@@ -78,10 +82,23 @@
           <input type="date" name="by_date" id="by_date" />
         </div>
       </div>
+      <div id="bulk_action" class="bulk_action">
+        <div class="action_group">
+          <button id="bulk_delete">Delete</button>
+        </div>
+        <div class="dismiss">
+          <span class="material-icons-outlined"> clear </span>
+        </div>
+      </div>
       <!-- table area -->
       <table>
         <thead>
           <tr>
+            <th>
+              <input id="all_select" type="checkbox" /><label for="all_select"
+                >All</label
+              >
+            </th>
             <th>No.</th>
             <th>Task Name</th>
             <th>Priority</th>

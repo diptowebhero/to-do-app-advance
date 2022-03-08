@@ -213,3 +213,21 @@
 // function setDataOnLocalStorage(task) {
 //   localStorage.setItem("tasks", JSON.stringify(task));
 // }
+
+function getId(id){
+    return document.getElementById(id);
+}
+
+const form = getId("form");
+
+form.addEventListener("submit",function(e) {
+    e.preventDefault();
+    const formData = {};
+    const inputs = [...this.elements];
+    inputs.forEach(function(input){
+        if(input.type !== "submit"){
+            formData[input.name] = input.value;
+        }
+    })
+    console.log(formData);
+})
