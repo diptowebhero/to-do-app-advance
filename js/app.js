@@ -12,6 +12,7 @@ const byDate = getId("by_date");
 const tBody = getId("tbody");
 const all_select = getId("all_select");
 const bulk_action = getId("bulk_action");
+const dismiss = getId("dismiss");
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
 
@@ -183,20 +184,29 @@ function selectFunction(e) {
   const id = tr.dataset.id;
   if (e.target.checked) {
     checked.push(tr);
-    bulkOptionHandler()
+    bulkOptionHandler();
   } else {
     const index = checked.findIndex((tr) => tr.dataset.id === id);
     checked.splice(index, 1);
-    bulkOptionHandler()
+    bulkOptionHandler();
   }
 }
 
+dismiss.addEventListener("click", (e) => {
+  const checkBoxes = document.getElementsByClassName("checkbox");
+  [...checkBoxes].forEach((box) => {
+    box.checked = false;
+  });
+  checked = [];
+  all_select.checked = false;
+  bulkOptionHandler();
+});
+
 function bulkOptionHandler() {
-  if(checked.length) {
-    bulk_action.style.display = 'flex';
-  }
-  else{
-    bulk_action.style.display = 'none';
+  if (checked.length) {
+    bulk_action.style.display = "flex";
+  } else {
+    bulk_action.style.display = "none";
   }
 }
 
