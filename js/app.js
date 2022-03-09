@@ -176,53 +176,54 @@ form.addEventListener("submit", function (e) {
   this.reset();
 });
 
+//bulk option handlers
 let checked = [];
 function selectFunction(e) {
   const tr = e.target.parentElement.parentElement;
   const id = tr.dataset.id;
   if (e.target.checked) {
     checked.push(tr);
-    bulkActionHandler();
+    bulkOptionHandler()
   } else {
     const index = checked.findIndex((tr) => tr.dataset.id === id);
     checked.splice(index, 1);
-    bulkActionHandler();
+    bulkOptionHandler()
   }
 }
 
-function bulkActionHandler() {
-  if (checked.length) {
-    bulk_action.style.display = "flex";
-  } else {
-    bulk_action.style.display = "none";
+function bulkOptionHandler() {
+  if(checked.length) {
+    bulk_action.style.display = 'flex';
+  }
+  else{
+    bulk_action.style.display = 'none';
   }
 }
 
-all_select.addEventListener("click", (e) => {
+all_select.addEventListener("change", (e) => {
   const checkBoxes = document.getElementsByClassName("checkbox");
+  checked = [];
   if (e.target.checked) {
-    checked = [];
-    for (let box of checkBoxes) {
-      box.checked = true;
+    [...checkBoxes].forEach((box) => {
       checked.push(box.parentElement.parentElement);
-    }
-    bulkActionHandler();
+      box.checked = true;
+    });
   } else {
-    for (let box of checkBoxes) {
+    [...checkBoxes].forEach((box) => {
       box.checked = false;
       checked = [];
-    }
-    bulkActionHandler();
+    });
   }
+  bulkOptionHandler();
 });
+
 //show data in Ui
 function showData({ name, priority, status, date, id }, index) {
   const tr = document.createElement("tr");
-  const check = document.createElement("input");
-  check.type = "checkbox";
-  check.className = "checkbox";
-
-  check.addEventListener("change", selectFunction);
+  const checkBox = document.createElement("input");
+  checkBox.type = "checkbox";
+  checkBox.className = "checkbox";
+  checkBox.addEventListener("change", selectFunction);
 
   tr.innerHTML = `
   <td id="check_box"></td>
@@ -241,8 +242,8 @@ function showData({ name, priority, status, date, id }, index) {
             <button id="delete"><i class="fa-solid fa-trash"></i></button>
         </td>
     `;
-  tr.firstElementChild.appendChild(check);
   tr.dataset.id = id;
+  tr.firstElementChild.appendChild(checkBox);
   tBody.appendChild(tr);
 }
 
