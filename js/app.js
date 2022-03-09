@@ -13,6 +13,7 @@ const tBody = getId("tbody");
 const all_select = getId("all_select");
 const bulk_action = getId("bulk_action");
 const dismiss = getId("dismiss");
+const bulk_delete = getId("bulk_delete");
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
 
@@ -175,10 +176,22 @@ form.addEventListener("submit", function (e) {
     setData(tasks);
   }
   this.reset();
+  date.value = today;
 });
 
 //bulk option handlers
 let checked = [];
+
+bulk_delete.addEventListener("click", () => {
+  let tasks = getDataLocalStorage();
+  checked.forEach((tr) => {
+    const id = tr.dataset.id;
+    tasks = tasks.filter(task => task.id !== id);
+    tr.remove();
+  })
+  setData(tasks);
+})
+
 function selectFunction(e) {
   const tr = e.target.parentElement.parentElement;
   const id = tr.dataset.id;
