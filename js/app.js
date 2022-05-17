@@ -69,11 +69,33 @@ tBody.addEventListener("click", function (e) {
         return task;
       }
     });
-    
+
     setDataOnLocalStorage(tasks);
     load();
   } else if (e.target.id === "check") {
-    console.log("check");
+    const tr = e.target.parentElement.parentElement;
+    const id = tr.dataset.id;
+    const tds = tr.children;
+    [...tds].forEach((td) => {
+      if (td.id === "status") {
+        let tasks = getDataFormLocalStorage();
+        tasks = tasks.filter((task) => {
+          if (task.id === id) {
+            if (task.status === "incomplete") {
+              task.status = "complete";
+              td.innerHTML = "complete";
+            } else {
+              task.status = "incomplete";
+              td.innerHTML = "incomplete";
+            }
+            return task;
+          } else {
+            return task;
+          }
+        });
+        setDataOnLocalStorage(tasks);
+      }
+    });
   } else if (e.target.id === "edit") {
     console.log("edit");
   }
@@ -83,7 +105,7 @@ tBody.addEventListener("click", function (e) {
 window.onload = load;
 
 function load() {
-  tBody.innerHTML = '';
+  tBody.innerHTML = "";
   const tasks = getDataFormLocalStorage();
   tasks.forEach((task, index) => {
     displayingData(task, index + 1);
