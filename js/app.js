@@ -76,6 +76,20 @@ tBody.addEventListener("click", function (e) {
     const tr = e.target.parentElement.parentElement;
     const id = tr.dataset.id;
     const tds = tr.children;
+
+    //name
+    let nameTd;
+    let nameInput;
+    //priority
+    let priorityTd;
+    let newPriorityInput;
+    //date
+    let dateTd;
+    let newDateInput;
+    //action
+    let actionTd;
+    let preActionTd;
+
     [...tds].forEach((td) => {
       if (td.id === "status") {
         let tasks = getDataFormLocalStorage();
@@ -97,7 +111,83 @@ tBody.addEventListener("click", function (e) {
       }
     });
   } else if (e.target.id === "edit") {
-    console.log("edit");
+    const tr = e.target.parentElement.parentElement;
+    const id = tr.dataset.id;
+    const tds = tr.children;
+    [...tds].forEach((td) => {
+      if (td.id === "name") {
+        nameTd = td;
+        const preName = td.innerHTML;
+        td.innerHTML = "";
+        nameInput = document.createElement("input");
+        nameInput.className = "nameInput";
+        nameInput.type = "text";
+        nameInput.value = preName;
+        td.appendChild(nameInput);
+      } else if (td.id === "priority") {
+        priorityTd = td;
+        const prePriority = td.innerHTML;
+        td.innerHTML = "";
+        newPriorityInput = document.createElement("select");
+        newPriorityInput.className = "selectInput";
+        newPriorityInput.innerHTML = `
+            <option disabled>Select One</option>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="Low">Low</option>
+        `;
+
+        if (prePriority === "high") {
+          newPriorityInput.selectedIndex = 1;
+        } else if (prePriority === "medium") {
+          newPriorityInput.selectedIndex = 2;
+        } else if (prePriority === "Low") {
+          newPriorityInput.selectedIndex = 3;
+        }
+        td.appendChild(newPriorityInput);
+      } else if (td.id === "date") {
+        dateTd = td;
+        const preDate = td.innerHTML;
+        td.innerHTML = "";
+        newDateInput = document.createElement("input");
+        newDateInput.className = "dateInput";
+        newDateInput.type = "date";
+        newDateInput.value = preDate;
+        td.appendChild(newDateInput);
+      } else if (td.id === "action") {
+        actionTd = td;
+        preActionTd = td.innerHTML;
+        td.innerHTML = "";
+        const saveBtn = document.createElement("button");
+        saveBtn.className = "saveBtn";
+        saveBtn.innerText = "Save";
+
+        saveBtn.addEventListener("click", function () {
+          const newName = nameInput.value;
+          nameTd.innerHTML = newName;
+          const newPriority = newPriorityInput.value;
+          priorityTd.innerHTML = newPriority;
+          const newDate = newDateInput.value;
+          dateTd.innerHTML = newDate;
+
+          actionTd.innerHTML = preActionTd;
+          let tasks = getDataFormLocalStorage();
+          tasks = tasks.filter((task) => {
+            if (task.id === id) {
+              task.name = newName;
+              task.priority = newPriority;
+              task.date = newDate;
+              return task;
+            }
+            else{
+              return task;
+            }
+          });
+          setDataOnLocalStorage(tasks);
+        });
+        td.appendChild(saveBtn);
+      }
+    });
   }
 });
 
