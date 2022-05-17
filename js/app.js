@@ -8,6 +8,7 @@ const date = elementById("#date");
 const today = new Date().toISOString().slice(0, 10);
 date.value = today;
 const tBody = elementById("#tbody");
+const searchInput = elementById("#search_name");
 
 //handle form
 form.addEventListener("submit", function (e) {
@@ -178,8 +179,7 @@ tBody.addEventListener("click", function (e) {
               task.priority = newPriority;
               task.date = newDate;
               return task;
-            }
-            else{
+            } else {
               return task;
             }
           });
@@ -189,6 +189,19 @@ tBody.addEventListener("click", function (e) {
       }
     });
   }
+});
+
+//search functionality
+searchInput.addEventListener("input", function (e) {
+  tBody.innerHTML = "";
+  const inputValue = this.value;
+  const tasks = getDataFormLocalStorage();
+  let no = 0;
+  tasks.forEach((task) => {
+    if (task.name.toLowerCase().includes(inputValue.toLowerCase())) {
+      displayingData(task, ++no);
+    }
+  });
 });
 
 //onload function
