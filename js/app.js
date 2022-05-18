@@ -9,6 +9,9 @@ const today = new Date().toISOString().slice(0, 10);
 date.value = today;
 const tBody = elementById("#tbody");
 const searchInput = elementById("#search_name");
+const filter = elementById("#filter");
+const sort = elementById("#sort");
+const by_date = elementById("#by_date");
 
 //handle form
 form.addEventListener("submit", function (e) {
@@ -192,7 +195,9 @@ tBody.addEventListener("click", function (e) {
 });
 
 //search functionality
-searchInput.addEventListener("input", function (e) {
+searchInput.addEventListener("input", function () {
+  filter.selectedIndex = 0;
+  sort.selectedIndex = 0;
   tBody.innerHTML = "";
   const inputValue = this.value;
   const tasks = getDataFormLocalStorage();
@@ -202,6 +207,125 @@ searchInput.addEventListener("input", function (e) {
       displayingData(task, ++no);
     }
   });
+});
+
+//filter functionality
+filter.addEventListener("change", function (e) {
+  searchInput.value = "";
+  sort.selectedIndex = 0;
+  tBody.innerHTML = "";
+  const filterTerm = this.value;
+  const tasks = getDataFormLocalStorage();
+  switch (filterTerm) {
+    case "all":
+      let no = 0;
+      tasks.forEach((task) => {
+        displayingData(task, ++no);
+      });
+      break;
+    case "complete":
+      let no1 = 0;
+      tasks.forEach((task) => {
+        if (task.status === "complete") {
+          displayingData(task, ++no1);
+        }
+      });
+      break;
+    case "incomplete":
+      let no2 = 0;
+      tasks.forEach((task) => {
+        if (task.status === "incomplete") {
+          displayingData(task, ++no2);
+        }
+      });
+      break;
+    case "today":
+      let no3 = 0;
+      tasks.forEach((task) => {
+        if (task.date === today) {
+          displayingData(task, ++no3);
+        }
+      });
+      break;
+    case "high":
+      let no4 = 0;
+      tasks.forEach((task) => {
+        if (task.priority === "high") {
+          displayingData(task, ++no4);
+        }
+      });
+      break;
+    case "medium":
+      let no5 = 0;
+      tasks.forEach((task) => {
+        if (task.priority === "medium") {
+          displayingData(task, ++no5);
+        }
+      });
+      break;
+    case "low":
+      let no6 = 0;
+      tasks.forEach((task) => {
+        if (task.priority === "Low") {
+          displayingData(task, ++no6);
+        }
+      });
+      break;
+  }
+});
+
+//Date sorting
+sort.addEventListener("change", function () {
+  searchInput.value = "";
+  tBody.innerHTML = "";
+  filter.selectedIndex = 0;
+  const sortTerm = this.value;
+  const tasks = getDataFormLocalStorage();
+  if (sortTerm === "newest") {
+    tasks.sort((a, b) => {
+      if (new Date(a.date) > new Date(b.date)) {
+        return -1;
+      } else if (new Date(a.date) < new Date(b.date)) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  } else {
+    tasks.sort((a, b) => {
+      if (new Date(a.date) > new Date(b.date)) {
+        return 1;
+      } else if (new Date(a.date) < new Date(b.date)) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+  }
+  tasks.forEach((task, i) => {
+    displayingData(task, i + 1);
+  });
+});
+
+//date filtering
+by_date.addEventListener("change", function () {
+  const selectedDate = this.value;
+  searchInput.value = "";
+  tBody.innerHTML = "";
+  filter.selectedIndex = 0;
+  const tasks = getDataFormLocalStorage();
+  if (selectedDate) {
+    tasks.forEach((task) => {
+      let count = 0;
+      if (task.date === selectedDate) {
+        displayingData(task, ++count);
+      }
+    });
+  } else {
+    tasks.forEach((task, i) => {
+      displayingData(task, ++i);
+    });
+  }
 });
 
 //onload function
